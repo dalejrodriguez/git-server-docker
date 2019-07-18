@@ -18,6 +18,7 @@ steps:
   inputs:
     containerRegistry: 'dpx2'
     repository: 'manasia/gitserver'
+    tags: latest 
     command: 'buildAndPush'
     Dockerfile: '**/Dockerfile'
   displayName: 'Pushing Docker Image'
