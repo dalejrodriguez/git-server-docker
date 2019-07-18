@@ -28,7 +28,7 @@ steps:
     targetType: 'inline'
     script: |
       URL="https://secure.sysdig.com/api/scanning/v1/anchore"
-      IMAGE="docker.io/manasia/gitserver:latest"
+      IMAGE="manasia/gitserver:latest"
       ##################
       # Internal Vars
       ##################
