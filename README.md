@@ -1,3 +1,5 @@
+[![Build Status](https://dev.azure.com/dalerodriguez/Gitserver/_apis/build/status/dalejrodriguez.git-server-docker?branchName=master)](https://dev.azure.com/dalerodriguez/Gitserver/_build/latest?definitionId=9&branchName=master)
+
 # git-server-docker
 A lightweight Git Server Docker image built with Alpine Linux. Available on [GitHub](https://github.com/jkarlosb/git-server-docker) and [Docker Hub](https://hub.docker.com/r/jkarlos/git-server-docker/)
 
