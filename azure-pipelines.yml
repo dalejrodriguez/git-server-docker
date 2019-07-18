@@ -54,7 +54,12 @@ steps:
       done
        
       echo "Scan Report - "
-      curl -s -k --header "Content-Type: application/json" -H "Authorization: Bearer ${TOKEN}" "${URL}/images/${DIGEST}/check?tag=$FULLTAG&detail=true"
+      curl -s -k --header "Content-Type: application/json" -H "Authorization: Bearer ${TOKEN}" "${URL}/images/${DIGEST}/check?tag=$FULLTAG&detail=true" > Scanning_Results.txt
        
       echo "$status" | grep -v fail
       exit $?
+- task: DownloadBuildArtifacts@0
+  inputs:
+    buildType: 'current'
+    downloadType: 'specific'
+    downloadPath: '$(System.ArtifactsDirectory)'
