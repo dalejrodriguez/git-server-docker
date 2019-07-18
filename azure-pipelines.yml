@@ -45,7 +45,7 @@ steps:
       echo $STATUS
        
       for ((i=0;  i<${RETRIES}; i++)); do
-          status=$(curl -s -k  --header "Content-Type: application/json" -H "Authorization: Bearer ${TOKEN}" "${URL}/images/${DIGEST}/check?tag=$FULLTAG&detail=false" | grep "status" | awk '{print $2}')
+          status=$(curl -s -k  --header "Content-Type: application/json" -H "Authorization: Bearer ${TOKEN}" "${URL}/images/${DIGEST}/check?tag=$FULLTAG&detail=false" | grep "status" | awk '{print $2}') > Scanning_Results_Fail.txt
           if [ ! -z  "$status" ]; then
               echo "Status is $status"
               break
@@ -54,12 +54,13 @@ steps:
       done
        
       echo "Scan Report - "
-      curl -s -k --header "Content-Type: application/json" -H "Authorization: Bearer ${TOKEN}" "${URL}/images/${DIGEST}/check?tag=$FULLTAG&detail=true" > Scanning_Results.txt
+      curl -s -k --header "Content-Type: application/json" -H "Authorization: Bearer ${TOKEN}" "${URL}/images/${DIGEST}/check?tag=$FULLTAG&detail=true" > Scanning_Results_Pass.txt
        
       echo "$status" | grep -v fail
       exit $?
 - task: DownloadBuildArtifacts@0
   inputs:
     buildType: 'current'
+    allowPartiallySucceededBuilds: true
     downloadType: 'specific'
     downloadPath: '$(System.ArtifactsDirectory)'
