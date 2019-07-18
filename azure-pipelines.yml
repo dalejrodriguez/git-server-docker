@@ -18,10 +18,10 @@ steps:
   inputs:
     containerRegistry: 'dpx2'
     repository: 'manasia/gitserver'
-    tags: latest 
+    tags: latest
     command: 'buildAndPush'
     Dockerfile: '**/Dockerfile'
-  displayName: 'Build and Push Docker Image'
+  displayName: 'Building and Pushing Docker Image'
 - task: Bash@3
   displayName: 'Sysdig Secure Scan'
   inputs:
