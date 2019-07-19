@@ -67,5 +67,5 @@ steps:
     containerRegistry: 'dpx2'
     repository: 'manasia/gitserver_prod'
     command: 'push'
-    tags: latest
+    tags: $(Build.BuildId)
   displayName: 'Pushing image to Production'
