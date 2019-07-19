@@ -58,11 +58,8 @@ steps:
        
       echo "$status" | grep -v fail
       exit $?
-- task: PublishBuildArtifacts@1
+- task: PublishPipelineArtifact@1
   inputs:
-    pathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    artifactName: Secure_Scanning_Failure
-- task: PublishBuildArtifacts@1
-  inputs:
-    pathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    artifactName: Secure_Scanning_Pass
+    targetPath: '$(Pipeline.Workspace)'
+    artifact: 'Sysdig_Scanning_Results'
+  
