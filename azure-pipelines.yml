@@ -13,7 +13,7 @@ steps:
 
 - script: |
      
-  displayName: 'Checking out Docker Image'
+  displayName: 'Downloading Docker Image Files'
 - task: Docker@2
   inputs:
     containerRegistry: 'dpx2'
@@ -21,7 +21,7 @@ steps:
     tags: latest
     command: 'buildAndPush'
     Dockerfile: '**/Dockerfile'
-  displayName: 'Building and Pushing Docker Image'
+  displayName: 'Building and Pushing Docker Image to staging'
 - task: Bash@3
   displayName: 'Sysdig Secure Scan'
   inputs:
@@ -62,4 +62,10 @@ steps:
   inputs:
     targetPath: '$(Pipeline.Workspace)'
     artifact: 'Sysdig_Scanning_Results'
-  
+- task: Docker@2
+  inputs:
+    containerRegistry: 'dpx2'
+    repository: 'manasia/gitserver_prod'
+    command: 'push'
+    tags: latest
+  displayName: 'Pushing image to Production'
