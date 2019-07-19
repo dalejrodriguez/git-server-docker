@@ -45,7 +45,7 @@ steps:
       echo $STATUS
        
       for ((i=0;  i<${RETRIES}; i++)); do
-          status=$(curl -s -k  --header "Content-Type: application/json" -H "Authorization: Bearer ${TOKEN}" "${URL}/images/${DIGEST}/check?tag=$FULLTAG&detail=false" | grep "status" | awk '{print $2}') > Scanning_Results_Fail.txt
+          status=$(curl -s -k  --header "Content-Type: application/json" -H "Authorization: Bearer ${TOKEN}" "${URL}/images/${DIGEST}/check?tag=$FULLTAG&detail=false" | grep "status" | awk '{print $2}') > $(Build.SourcesDirectory)/Scanning_Results_Fail.txt
           if [ ! -z  "$status" ]; then
               echo "Status is $status"
               break
@@ -54,15 +54,15 @@ steps:
       done
        
       echo "Scan Report - "
-      curl -s -k --header "Content-Type: application/json" -H "Authorization: Bearer ${TOKEN}" "${URL}/images/${DIGEST}/check?tag=$FULLTAG&detail=true" > Scanning_Results_Pass.txt
+      curl -s -k --header "Content-Type: application/json" -H "Authorization: Bearer ${TOKEN}" "${URL}/images/${DIGEST}/check?tag=$FULLTAG&detail=true" > $(Build.SourcesDirectory)/Scanning_Results_Pass.txt
        
       echo "$status" | grep -v fail
       exit $?
-- task: DownloadPipelineArtifact@2
+- task: PublishBuildArtifacts@1
   inputs:
-    buildType: 'specific'
-    project: 'd5c128b3-5cc5-4814-8580-048fbae55627'
-    definition: '9'
-    buildVersionToDownload: 'latest'
-    itemPattern: '**/*.txt'
-    targetPath: '$(Pipeline.Workspace)'
+    pathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    artifactName: Secure_Scanning_Failure
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    artifactName: Secure_Scanning_Pass
