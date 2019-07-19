@@ -45,7 +45,7 @@ steps:
       echo $STATUS
        
       for ((i=0;  i<${RETRIES}; i++)); do
-          status=$(curl -s -k  --header "Content-Type: application/json" -H "Authorization: Bearer ${TOKEN}" "${URL}/images/${DIGEST}/check?tag=$FULLTAG&detail=false" | grep "status" | awk '{print $2}') > $(Build.SourcesDirectory)/Scanning_Results_Fail.txt
+          status=$(curl -s -k  --header "Content-Type: application/json" -H "Authorization: Bearer ${TOKEN}" "${URL}/images/${DIGEST}/check?tag=$FULLTAG&detail=false" | grep "status" | awk '{print $2}') > $(Build.SourcesDirectory)/Scanning_Results_Fail_$(Build.BuildNumber).txt
           if [ ! -z  "$status" ]; then
               echo "Status is $status"
               break
@@ -54,7 +54,7 @@ steps:
       done
        
       echo "Scan Report - "
-      curl -s -k --header "Content-Type: application/json" -H "Authorization: Bearer ${TOKEN}" "${URL}/images/${DIGEST}/check?tag=$FULLTAG&detail=true" > $(Build.SourcesDirectory)/Scanning_Results_Pass.txt
+      curl -s -k --header "Content-Type: application/json" -H "Authorization: Bearer ${TOKEN}" "${URL}/images/${DIGEST}/check?tag=$FULLTAG&detail=true" > $(Build.SourcesDirectory)/Scanning_Results_Pass_$(Build.BuildNumber).txt
        
       echo "$status" | grep -v fail
       exit $?
